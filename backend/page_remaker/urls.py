@@ -21,6 +21,6 @@ from django.urls import path
 from page_remaker.views import Analyze
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('analyze/', Analyze.as_view()),
+    path('api/admin/', admin.site.urls),
+    path('api/analyze/', Analyze.as_view()),
 ]
