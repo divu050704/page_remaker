@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion"; // <-- Import Framer Motion
 import AnalysisView from "./components/AnalyseView";
 import { PreviewView, Empty, Card } from "./components/UI";
 import apiClient from "./api";
@@ -33,13 +34,21 @@ export default function App() {
   
   const fileInputRef = useRef();
 
-  // Cycle through loading messages every 2.5 seconds when loading
+  // Cycle through loading messages, but STOP at the last one
   useEffect(() => {
     let interval;
     if (loading) {
       interval = setInterval(() => {
-        setLoadingMsgIdx((prev) => (prev + 1) % LOADING_MESSAGES.length);
-      }, 2500);
+        setLoadingMsgIdx((prev) => {
+          // If we haven't reached the last message, increment
+          if (prev < LOADING_MESSAGES.length - 1) {
+            return prev + 1;
+          }
+          // Otherwise, clear interval and stay on the last message
+          clearInterval(interval);
+          return prev;
+        });
+      }, 3000); // Increased slightly for better readability
     } else {
       setLoadingMsgIdx(0);
     }
@@ -78,14 +87,13 @@ export default function App() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Map to the new response structure
       setChangesMade(data.changes_made || []);
       setErrors(data.errors || []);
       setFinalHtml(data.final_html || "");
       setOldHtml(data.old_html || "");
 
       if (data.errors && data.errors.length > 0) {
-        // Leave active tab as is, UI will hide tabs automatically
+        // Leave active tab as is
       } else {
         setActiveTab("Preview");
       }
@@ -194,7 +202,6 @@ export default function App() {
         {/* Main panel */}
         <div className="flex-1 flex flex-col overflow-hidden relative">
           
-          {/* Conditional Rendering: Show Errors OR Tabs */}
           {errors.length > 0 ? (
              <div className="flex-1 overflow-y-auto p-6 bg-[#f8f7f4]">
                 <Card title="Generation Errors" accent="red">
@@ -234,9 +241,32 @@ export default function App() {
                 {!hasRun ? (
                   <Empty text="Enter a landing page URL and ad creative, then click Personalize." />
                 ) : loading ? (
-                  <div className="flex flex-col items-center justify-center h-full animate-pulse">
-                    <Empty text={LOADING_MESSAGES[loadingMsgIdx]} />
+                  
+                  // --- NEW FRAMER MOTION LOADING STATE ---
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="relative h-12 flex items-center justify-center w-full overflow-hidden">
+                      <AnimatePresence mode="wait">
+                        <motion.p
+                          key={loadingMsgIdx}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          transition={{ duration: 0.4, ease: "easeOut" }}
+                          className="absolute text-gray-500 font-medium text-sm text-center m-0"
+                        >
+                          {LOADING_MESSAGES[loadingMsgIdx]}
+                        </motion.p>
+                      </AnimatePresence>
+                    </div>
+                    {/* Optional: Add a continuous spinner so the user knows it's still working when the text stops on the final message */}
+                    <motion.div 
+                      className="mt-6 w-6 h-6 border-2 border-gray-200 border-t-gray-900 rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
                   </div>
+                  // ---------------------------------------
+                  
                 ) : (
                   tabContent[activeTab]
                 )}
