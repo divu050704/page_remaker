@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: ./backend
+    command: >
+      sh -c "poetry run python manage.py collectstatic --noinput &&
+             poetry run python manage.py migrate &&
+             poetry run daphne -b 0.0.0.0 -p 8090 pager_remaker.asgi:application"
+    ports:
+      # ADDED: Expose the port so your separate frontend can communicate with the API
+      - "8090:8090"
+    volumes:
+      - static_volume:/app/static
+
+volumes:
+  static_volume:

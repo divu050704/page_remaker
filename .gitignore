@@ -1,0 +1,7 @@
+backend/page_remaker/onto-489913-59a586e5e139.json
+backend/page_remaker/settings.py
+backend/db.sqlite3
+
+frontend/node_modules/
+frontend/.env.development
+frontend/.env.production
