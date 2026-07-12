@@ -67,10 +67,5 @@ The system prompt for the suggestor agent is provided with the exact changes to 
 rather than providing generalised instructions to implement advert-related changes and CRO
 enhancement. The prompt also specifies the exact sections and CTA elements to look for
 changes, which drastically reduced the inconsistent changes.
-**AI Usage:** Claude and ChatGPT were used to write the code helping in reducing the time to
-reduce time to refine and test multiple versions
-**Submitted By:-**
-Divyanshu Sharma
-(divyanshu14472@gmail.com)
 
 <img width="1150" height="2840" alt="mermaid-diagram-2026-04-14T14-48-17" src="https://github.com/user-attachments/assets/65fc8955-77e3-44f9-9c74-92a32c533633" />
