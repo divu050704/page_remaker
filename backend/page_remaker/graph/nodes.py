@@ -92,7 +92,7 @@ def node_suggest_changes(state: dict, client: genai.Client) -> dict:
     """
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash-lite",
+            model="gemini-3.6-flash-lite",
             contents=prompt,
             config={
                 "response_mime_type": "application/json",
@@ -268,7 +268,7 @@ def node_visual_qa(state: dict, client: genai.Client) -> dict:
         image_part = types.Part.from_bytes(data=screenshot_bytes, mime_type='image/png')
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash-lite",
+            model="gemini-3.6-flash-lite",
             contents=[prompt, image_part],
             config={
                 "response_mime_type": "application/json",
