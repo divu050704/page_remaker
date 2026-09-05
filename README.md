@@ -1,6 +1,10 @@
 # Converge
 > **AI-Powered Landing Page Personalization & Conversion Rate Optimization (CRO) Framework**
 
+![Converge Banner](converge%20banner.png)
+
+
+
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.0+-092E20?style=flat-square&logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-1.1.6-FF6F00?style=flat-square)](https://www.langchain.com/langgraph)
